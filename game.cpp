@@ -6,7 +6,9 @@
 Game::Game() : window(sf::VideoMode(1600, 900), "Fighter Jet Game") {
 	textures.load(Textures::ID::Bullet, "textures/small_bullet.png");
 	textures.load(Textures::ID::Player, "textures/player.png");
+    textures.load(Textures::ID::Enemy, "textures/enemy.png");
 	player.getSprite().setTexture(textures.get(Textures::Player));
+	player.setTexture(textures.get(Textures::Player));
 	player.getSprite().setOrigin(textures.get(Textures::Player).getSize().x / 2.f, textures.get(Textures::Player).getSize().y / 2.f);
 }
 void Game::isCollision()
@@ -16,11 +18,45 @@ void Game::isCollision()
         if (it->getShape().getGlobalBounds().intersects(player.getShape().getGlobalBounds())) {
             // Handle collision (e.g., remove bullet, reduce player health, etc.)
             it = bullets.erase(it); // Remove bullet on collision
-			player.setHealth(player.getHealth() - 1); // Example: reduce player health
+			player.setHealth(player.getHealth() - 10); // Example: reduce player health
         } else {
             ++it; // Move to the next bullet
         }
 	}
+    // Check if player health is below zero
+    if (player.getHealth() <= 0) {
+        // Handle player death (e.g., end game, reset player, etc.)
+        window.close(); // Example: close the window on player death
+	}
+	//check if player is out of bounds
+	sf::Vector2f playerPosition = player.getShape().getPosition();
+	if (playerPosition.x < 0 || playerPosition.x > window.getSize().x ||
+        playerPosition.y < 0 || playerPosition.y > window.getSize().y) {
+		playerPosition.x = std::max(0.f, std::min(playerPosition.x, static_cast<float>(window.getSize().x)));
+		playerPosition.y = std::max(0.f, std::min(playerPosition.y, static_cast<float>(window.getSize().y)));
+		// Reset player position to within bounds
+		player.getShape().setPosition(playerPosition); // Reset player position to within bounds
+		player.getSprite().setPosition(playerPosition); // Reset sprite position to match
+
+		//Spawn enemy at random position
+		sf::Vector2f enemyPosition(rand() % window.getSize().x, rand() % window.getSize().y);
+		sf::Sprite enemySprite;
+		enemySprite.setTexture(textures.get(Textures::Enemy));
+		enemySprite.setOrigin(textures.get(Textures::Enemy).getSize().x / 2.f, textures.get(Textures::Enemy).getSize().y / 2.f);
+		enemySprite.setPosition(enemyPosition);
+		// Create enemy object (assuming you have an Enemy class similar to Player)
+        Enemy enemy;
+		enemy.setSprite(enemySprite);
+		enemy.setShape(enemySprite.getGlobalBounds()); // Set shape based on sprite bounds
+		enemies.push_back(enemy); // Add enemy to the list
+	}
+    for (int i = 0; i < bullets.size(); i++) {
+        // Remove bullet if out of bounds
+        if (bullets[i].getShape().getPosition().x < 0 || bullets[i].getShape().getPosition().x > window.getSize().x ||
+            bullets[i].getShape().getPosition().y < 0 || bullets[i].getShape().getPosition().y > window.getSize().y) {
+            bullets.erase(bullets.begin() + i);
+        }
+    }
 }
 void Game::addBullet() {
     sf::Vector2f playercenter = player.getPosition();
@@ -28,9 +64,7 @@ void Game::addBullet() {
     sf::Vector2f aimDir(cos(playerRotation), sin(playerRotation));
 
     // Calculate bullet starting position
-    sf::Vector2f bulletOffset = aimDir * 20.f;
-    sf::Vector2f bulletPosition = playercenter + bulletOffset;
-
+	sf::Vector2f bulletPosition = playercenter + aimDir * 90.f; // Offset from player position
     // Create bullet shape
     sf::CircleShape bulletShape(5.0f);
     bulletShape.setFillColor(sf::Color::Red);
@@ -67,16 +101,12 @@ void Game::processEvents() {
 
 void Game::update() {
     // Update bullet positions
+    
+	 // Check for collisions and update bullet positions
     for (int i = 0; i < bullets.size(); i++) {
         sf::Vector2f velocity = bullets[i].getDirection() * bullets[i].getSpeed();
         bullets[i].move(velocity.x, velocity.y);
-        // Remove bullet if out of bounds
-        if (bullets[i].getShape().getPosition().x < 0 || bullets[i].getShape().getPosition().x > window.getSize().x ||
-            bullets[i].getShape().getPosition().y < 0 || bullets[i].getShape().getPosition().y > window.getSize().y) {
-            bullets.erase(bullets.begin() + i);
-        }
     }
-
     // Get current rotation
     float currentRotation = player.getRotation();
 
@@ -119,6 +149,9 @@ void Game::update() {
     if (length > 0.f) { // Only move if there’s a valid direction
         player.move(moveDirection.x * moveSpeed, moveDirection.y * moveSpeed);
     }
+
+    // Check for collisions and update bullet positions
+	isCollision();
 }
 
 void Game::render() {

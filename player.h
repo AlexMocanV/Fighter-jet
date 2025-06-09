@@ -22,7 +22,7 @@ public:
     float getSpeed();
     float getBulletSpeed();
     sf::Sprite& getSprite();
-    sf::Texture getTexture();
+    sf::Texture& getTexture();
     sf::ConvexShape& getShape();
     void move(float offsetX, float offsetY);
 

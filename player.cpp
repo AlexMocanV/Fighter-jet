@@ -32,7 +32,7 @@ float Player::getAttackDamage() { return attackDamage; }
 float Player::getSpeed() { return speed; }
 float Player::getBulletSpeed() { return bulletSpeed; }
 sf::Sprite& Player::getSprite() { return sprite; }
-sf::Texture Player::getTexture() { return texture; }
+sf::Texture& Player::getTexture() { return texture; }
 sf::ConvexShape& Player::getShape() { return triangleShape; }
 
 void Player::setHealth(float h) { health = h; }

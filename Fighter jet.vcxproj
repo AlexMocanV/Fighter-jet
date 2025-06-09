@@ -136,6 +136,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="bullet.cpp" />
+    <ClCompile Include="enemies.cpp" />
     <ClCompile Include="Fighter jet.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="player.cpp" />

@@ -1,19 +1,22 @@
-/*#pragma once
+#pragma once
+#include <SFML/Graphics.hpp>
 #ifndef ENEMIES_H
 #define ENEMIES_H
-#include "game.h"
 
 class Enemy {
 private:
 	float health;
 	float attackPower;
-	float defense;
 	float speed;
+	sf::Sprite sprite;
+	sf::Texture texture;
 public:
 	Enemy();
-	float getHealth();
-	float getDefense();
-	float getSpeed();
-
-}
-#endif*/
+	void takeDamage(float damage);
+	float getHealth() const;
+	float getSpeed() const;
+	float getAttackPower() const;
+	
+	void setSprite(sf::Sprite sprite);
+};
+#endif

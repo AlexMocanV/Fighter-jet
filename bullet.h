@@ -3,7 +3,7 @@
 #ifndef BULLET_H
 #define BULLET_H
 
-class Bullet {
+class Bullet{
 private:
     float speed;
     sf::CircleShape shape;

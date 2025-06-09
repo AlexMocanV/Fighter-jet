@@ -1,7 +1,7 @@
 #pragma once
 namespace Textures
 {
-    enum ID { Player, Bullet, Enemies };
+    enum ID { Player, Bullet, Enemy };
 }
 namespace Fonts
 {
