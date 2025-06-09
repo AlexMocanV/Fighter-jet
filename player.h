@@ -12,14 +12,16 @@ private:
     sf::Sprite sprite;
     sf::Texture texture;
     sf::ConvexShape triangleShape; 
-	sf::Texture textureJet;
 public:
     Player();
+    void rotate(float angle);            
+    float getRotation() const;           
+    sf::Vector2f getPosition() const;    
     float getHealth();
     float getAttackDamage();
     float getSpeed();
     float getBulletSpeed();
-    sf::Sprite getSprite();
+    sf::Sprite& getSprite();
     sf::Texture getTexture();
     sf::ConvexShape& getShape();
     void move(float offsetX, float offsetY);

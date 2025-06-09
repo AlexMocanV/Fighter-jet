@@ -1,7 +1,10 @@
+#pragma once
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "player.h"
 #include "bullet.h"
+#include "resource_holder.hpp"
+#include "resource_holder.h"
 #ifndef GAME_H
 #define GAME_H
 
@@ -10,6 +13,7 @@ public:
     Game();
     void run();
     void addBullet();
+	void isCollision();
 private:
     void update();
     void processEvents();
@@ -18,8 +22,7 @@ private:
     sf::RenderWindow window;
     Player player;
     std::vector<Bullet> bullets;
-    sf::Texture bulletTexture;// Store bullet texture for efficiency
-    
+    ResourceHolder<sf::Texture, Textures::ID> textures;
 };
 
 #endif
