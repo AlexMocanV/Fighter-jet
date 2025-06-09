@@ -23,6 +23,27 @@ void Game::isCollision()
             ++it; // Move to the next bullet
         }
 	}
+	// Check for collisions between bullets and enemie
+    // Check for collisions between bullets and enemies
+    for (auto bulletIt = bullets.begin(); bulletIt != bullets.end();) {
+        bool collision = false;
+        for (auto enemyIt = enemies.begin(); enemyIt != enemies.end();) {
+            if (bulletIt->getShape().getGlobalBounds().intersects(enemyIt->getSprite().getGlobalBounds())) {
+                // Remove both bullet and enemy
+                bulletIt = bullets.erase(bulletIt);
+                enemyIt = enemies.erase(enemyIt);
+                collision = true;
+                break; // Exit inner loop since bullet is removed
+            }
+            else {
+                ++enemyIt; // Move to next enemy
+            }
+        }
+        if (!collision) {
+            ++bulletIt; // Move to next bullet if no collision occurred
+        }
+    }
+    
     // Check if player health is below zero
     if (player.getHealth() <= 0) {
         // Handle player death (e.g., end game, reset player, etc.)
@@ -47,7 +68,6 @@ void Game::isCollision()
 		// Create enemy object (assuming you have an Enemy class similar to Player)
         Enemy enemy;
 		enemy.setSprite(enemySprite);
-		enemy.setShape(enemySprite.getGlobalBounds()); // Set shape based on sprite bounds
 		enemies.push_back(enemy); // Add enemy to the list
 	}
     for (int i = 0; i < bullets.size(); i++) {
@@ -64,7 +84,7 @@ void Game::addBullet() {
     sf::Vector2f aimDir(cos(playerRotation), sin(playerRotation));
 
     // Calculate bullet starting position
-	sf::Vector2f bulletPosition = playercenter + aimDir * 90.f; // Offset from player position
+	sf::Vector2f bulletPosition = playercenter + aimDir * 110.f; // Offset from player position
     // Create bullet shape
     sf::CircleShape bulletShape(5.0f);
     bulletShape.setFillColor(sf::Color::Red);
@@ -160,6 +180,9 @@ void Game::render() {
     window.draw(player.getSprite());
     for (auto& bullet : bullets) {
         window.draw(bullet.getSprite()); // Draw sprite for visuals
+    }
+    for (auto& enemy : enemies) {
+        window.draw(enemy.getSprite()); // Draw sprite for visuals
     }
     window.display();
 }
