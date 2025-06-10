@@ -110,18 +110,19 @@ void Game::addBullet() {
 void Game::processEvents() {
     sf::Event event;
     while (window.pollEvent(event)) {
-        if (event.type == sf::Event::Closed)
+	    if (event.type == sf::Event::Closed)
             window.close();
-        //Add a bullet while mouse button is pressed
-        if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
-            addBullet();
-		}
     }
 }
 
 void Game::update() {
-    // Update bullet positions
-    
+    // Check if left mouse button is held and enough time has passed
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+        if (bulletClock.getElapsedTime().asMilliseconds() > 50) {
+            addBullet();           // Add a bullet
+            bulletClock.restart(); // Reset the clock for the next shot
+        }
+    }
 	 // Check for collisions and update bullet positions
     for (int i = 0; i < bullets.size(); i++) {
         sf::Vector2f velocity = bullets[i].getDirection() * bullets[i].getSpeed();

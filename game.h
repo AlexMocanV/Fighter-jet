@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
 #include "player.h"
 #include "enemies.h"
 #include "bullet.h"
@@ -25,6 +26,7 @@ private:
     std::vector<Bullet> bullets;
     std::vector<Enemy> enemies;
     ResourceHolder<sf::Texture, Textures::ID> textures;
+    sf::Clock bulletClock;
 };
 
 #endif
