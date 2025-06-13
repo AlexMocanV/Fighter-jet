@@ -136,14 +136,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="bullet.cpp" />
-    <ClCompile Include="enemies.cpp" />
+    <ClCompile Include="enemy.cpp" />
     <ClCompile Include="Fighter jet.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bullet.h" />
-    <ClInclude Include="enemies.h" />
+    <ClInclude Include="enemy.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="resource_holder.h" />

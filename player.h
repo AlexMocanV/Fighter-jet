@@ -11,7 +11,7 @@ private:
     float bulletSpeed;
     sf::Sprite sprite;
     sf::Texture texture;
-    sf::ConvexShape triangleShape; 
+    sf::ConvexShape hitbox;
 public:
     Player();
     void rotate(float angle);            

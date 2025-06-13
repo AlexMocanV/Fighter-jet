@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include "player.h"
-#include "enemies.h"
+#include "enemy.h"
 #include "bullet.h"
 #include "resource_holder.hpp"
 #include "resource_holder.h"
@@ -14,8 +14,12 @@ class Game {
 public:
     Game();
     void run();
-    void addBullet();
+    void addPlayerBullet();
+    void addEnemyBullet(Enemy);
 	void isCollision();
+    void handlePlayerMovement();
+	void handleEnemyMovement();
+	void handleBulletMovement();
 private:
     void update();
     void processEvents();
@@ -27,6 +31,7 @@ private:
     std::vector<Enemy> enemies;
     ResourceHolder<sf::Texture, Textures::ID> textures;
     sf::Clock bulletClock;
+    sf::Clock enemyClock;
 };
 
 #endif

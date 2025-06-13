@@ -7,24 +7,24 @@ Player::Player() {
     bulletSpeed = 10.0f;
 
     // Set up triangle shape
-    triangleShape.setPointCount(3);
+    hitbox.setPointCount(3);
     // Top point
-	triangleShape.setPoint(0, sf::Vector2f(-35, -18)); // Top
+    hitbox.setPoint(0, sf::Vector2f(-35, -18)); // Top
 	// Left point
-	triangleShape.setPoint(1, sf::Vector2f(-50, 18)); // Bottom left
+    hitbox.setPoint(1, sf::Vector2f(-50, 18)); // Bottom left
 	// Right point
-	triangleShape.setPoint(2, sf::Vector2f(72, 18)); // Bottom right
+    hitbox.setPoint(2, sf::Vector2f(72, 18)); // Bottom right
     
-    triangleShape.setFillColor(sf::Color::Green);
+    hitbox.setFillColor(sf::Color::Green);
 	// Origin at geometric center for the values used
 	// Center of the triangle
-	triangleShape.setOrigin(0, 0); // No offset
+    hitbox.setOrigin(0, 0); // No offset
 	
-    triangleShape.setPosition(400, 300); // Center of the window
+    hitbox.setPosition(400, 300); // Center of the window
 	sprite.setPosition(400, 300); // Center of the window
 }
 void Player::move(float offsetX, float offsetY) {
-    triangleShape.move(offsetX, offsetY);
+    hitbox.move(offsetX, offsetY);
     sprite.move(offsetX, offsetY);
 }
 float Player::getHealth() { return health; }
@@ -33,7 +33,7 @@ float Player::getSpeed() { return speed; }
 float Player::getBulletSpeed() { return bulletSpeed; }
 sf::Sprite& Player::getSprite() { return sprite; }
 sf::Texture& Player::getTexture() { return texture; }
-sf::ConvexShape& Player::getShape() { return triangleShape; }
+sf::ConvexShape& Player::getShape() { return hitbox; }
 
 void Player::setHealth(float h) { health = h; }
 void Player::setAttackDamage(float d) { attackDamage = d; }
@@ -42,8 +42,8 @@ void Player::setBulletSpeed(float s) { bulletSpeed = s; }
 void Player::setSprite(const sf::Sprite& s) { sprite = s; }
 void Player::setTexture(const sf::Texture& t) { texture = t; }
 
-void Player::rotate(float angle) { sprite.rotate(angle); triangleShape.rotate(angle);}
+void Player::rotate(float angle) { sprite.rotate(angle); hitbox.rotate(angle);}
 
 float Player::getRotation() const { return sprite.getRotation(); }
 
-sf::Vector2f Player::getPosition() const { return triangleShape.getPosition();}
+sf::Vector2f Player::getPosition() const { return hitbox.getPosition();}
