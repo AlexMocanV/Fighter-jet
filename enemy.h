@@ -18,7 +18,7 @@ public:
     float getSpeed() const;
     float getAttackPower() const;
     void setSprite(const sf::Sprite&);
-    sf::Sprite getSprite() const;
+    sf::Sprite& getSprite();
 	void rotate(float angle);
 	float getRotation() const;
     sf::Vector2f getPosition() const;

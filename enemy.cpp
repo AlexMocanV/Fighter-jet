@@ -1,7 +1,7 @@
 #include "enemy.h"
 #include <SFML/Graphics.hpp>
 
-Enemy::Enemy() : health(100.0f), attackPower(10.0f), speed(100.0f) {
+Enemy::Enemy() : health(100.0f), attackPower(10.0f), speed(1.3f) {
 	// set the triangle shape of the enemy
     hitbox.setPointCount(3);
     hitbox.setPoint(0, sf::Vector2f(0, -15)); // Top point
@@ -40,7 +40,7 @@ void Enemy::setSprite(const sf::Sprite& spritePath)
     sprite = spritePath;
 }
 
-sf::Sprite Enemy::getSprite() const
+sf::Sprite& Enemy::getSprite()
 {
     return sprite;
 }

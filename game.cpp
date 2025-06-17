@@ -194,7 +194,7 @@ void Game::handlePlayerMovement()
 void Game::handleEnemyMovement()
 {
 	// Check if right mouse button is pressed to spawn enemies at the window position
-    if (enemyClock.getElapsedTime().asMilliseconds() > 1000) {
+    if (enemyClock.getElapsedTime().asMilliseconds() > 5000) {
 		enemyClock.restart(); // Reset the clock for the next enemy spawn
         sf::Vector2f windowPosition = sf::Vector2f(window.getSize().x - 100, rand() % window.getSize().y);
         sf::Sprite enemySprite;
@@ -207,7 +207,7 @@ void Game::handleEnemyMovement()
         enemies.push_back(enemy);
     }
 	//point the enemy towards the player
-    for (Enemy enemy : enemies)
+    for (Enemy& enemy : enemies)
     {
         sf::Vector2f enemyPosition = enemy.getPosition();
         sf::Vector2f playerPosition = player.getPosition();
@@ -228,7 +228,7 @@ void Game::handleEnemyMovement()
             while (difference < -180) difference += 360;
 
             // Define maximum turn rate (degrees per frame)
-            float maxTurnRate = 1.0f; // Adjust this to control turning speed
+            float maxTurnRate = 0.25f; // Adjust this to control turning speed
 
             // Determine rotation amount for this frame
             float rotationAmount;
