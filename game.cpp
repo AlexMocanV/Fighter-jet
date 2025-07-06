@@ -89,7 +89,7 @@ void Game::addPlayerBullet() {
     sf::Vector2f aimDir(cos(playerRotation), sin(playerRotation));
 
     // Calculate bullet starting position
-	sf::Vector2f bulletPosition = playercenter + aimDir * 110.f; // Offset from player position
+	sf::Vector2f bulletPosition = playercenter + aimDir * 100.f; // Offset from player position
     // Create bullet shape
     sf::CircleShape bulletShape(5.0f);
     bulletShape.setFillColor(sf::Color::Red);
@@ -118,7 +118,7 @@ void Game::addEnemyBullet(Enemy enemy) {
     sf::Vector2f aimDir(cos(enemyRotation), sin(enemyRotation));
 
     // Calculate bullet starting position
-    sf::Vector2f bulletPosition = enemycenter + aimDir * 110.f; // Offset from player position
+    sf::Vector2f bulletPosition = enemycenter + aimDir * 50.f; // Offset from player position
     // Create bullet shape
     sf::CircleShape bulletShape(5.0f);
     bulletShape.setFillColor(sf::Color::Red);
@@ -194,8 +194,8 @@ void Game::handlePlayerMovement()
 void Game::handleEnemyMovement()
 {
 	// Check if right mouse button is pressed to spawn enemies at the window position
-    if (enemyClock.getElapsedTime().asMilliseconds() > 5000) {
-		enemyClock.restart(); // Reset the clock for the next enemy spawn
+    if (enemySpawnClock.getElapsedTime().asMilliseconds() > 5000) {
+        enemySpawnClock.restart(); // Reset the clock for the next enemy spawn
         sf::Vector2f windowPosition = sf::Vector2f(window.getSize().x - 100, rand() % window.getSize().y);
         sf::Sprite enemySprite;
         enemySprite.setTexture(textures.get(Textures::Enemy));
@@ -243,6 +243,11 @@ void Game::handleEnemyMovement()
             }
             // Apply the rotation
             enemy.rotate(rotationAmount);
+            if((rotationAmount > 0.1f || rotationAmount < -0.1f) && enemyBulletClock.getElapsedTime().asMilliseconds() > 1500) {
+                addEnemyBullet(enemy);
+				enemyBulletClock.restart(); // Reset the clock for the next shot
+                // Add a bullet if the enemy is turning
+			}
             // Move the player forward based on its current rotation
             float moveSpeed = enemy.getSpeed();
             float currentAngle = enemy.getRotation() * 3.14159f / 180; // Convert degrees to radians
@@ -255,9 +260,9 @@ void Game::handleEnemyMovement()
 void Game::handleBulletMovement() {
     // Check if left mouse button is held and enough time has passed
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-        if (bulletClock.getElapsedTime().asMilliseconds() > 100) {
+        if (playerBulletClock.getElapsedTime().asMilliseconds() > 100) {
             addPlayerBullet();           // Add a bullet
-            bulletClock.restart(); // Reset the clock for the next shot
+            playerBulletClock.restart(); // Reset the clock for the next shot
         }
     }
     for (int i = 0; i < bullets.size(); i++) {

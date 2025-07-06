@@ -1,7 +1,7 @@
 #include "enemy.h"
 #include <SFML/Graphics.hpp>
 
-Enemy::Enemy() : health(100.0f), attackPower(10.0f), speed(1.3f) {
+Enemy::Enemy() : health(100.0f), attackPower(10.0f), speed(0.5f) {
 	// set the triangle shape of the enemy
     hitbox.setPointCount(3);
     hitbox.setPoint(0, sf::Vector2f(0, -15)); // Top point

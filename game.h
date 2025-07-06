@@ -30,8 +30,9 @@ private:
     std::vector<Bullet> bullets;
     std::vector<Enemy> enemies;
     ResourceHolder<sf::Texture, Textures::ID> textures;
-    sf::Clock bulletClock;
-    sf::Clock enemyClock;
+    sf::Clock playerBulletClock;
+    sf::Clock enemySpawnClock;
+    sf::Clock enemyBulletClock;
 };
 
 #endif
